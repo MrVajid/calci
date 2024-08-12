@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+.case, .screen {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+#header {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 800;
+}
+.screen {
+    height: 50px;
+    background-color: aliceblue;
+    border-radius: 12px;
+    border: 1px solid blue;
+}
+button {
+    width: 80px;
+    padding: 10px 0;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1rem;
+    color: #0a0d11;
+    background-color: #9faac7;
+}
+#equals {
+    width: 160px;
+    color: #9dc0ef;
+    background-color: #1f3267;
+}
