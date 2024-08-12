@@ -1,9 +1,14 @@
 'use strict'
 const problem = document.querySelector("#problem");
+const solution = document.querySelector("#solution");
+const clearBtn = document.querySelector("#clear");
 const infixExpr = [];
 let buffer = "";
 
 function keyFinder(event){
+    solution.textContent = '';
+    problem.setAttribute("style", "font-size: larger; font-weight: normal");
+    clearBtn.textContent = "CE";
     switch (event.key) {
         case '(':
             openBracketHandler();
@@ -42,8 +47,13 @@ function numberHandler(event) {
         if(infixExpr[infixExpr.length -1] === ')'){
             infixExpr.push('*');
         }
-        buffer = buffer + event.key.toString();
-        problem.textContent = infixExpr.join('') + buffer;
+        if(buffer.length <= 10){
+            buffer = buffer + event.key.toString();
+            problem.textContent = infixExpr.join(' ') + ' ' + buffer;
+        }
+        else{
+            alert("The number should not exceed 10 digits");
+        }
     }
 }
 
@@ -52,13 +62,7 @@ function pushBuffer() {
         if(buffer === '.') infixExpr.push(Number(0));
         else infixExpr.push(Number(buffer));
         buffer = '';
-        // problem.textContent = infixExpr.join('') + buffer;
     }
-    // else{
-    //     buffer = '';
-    //     problem.textContent = infixExpr.join('') + buffer;
-    //     // pointValue = 0;
-    // }
 }
 
 let unclosedBrackets = 0
@@ -69,7 +73,7 @@ function openBracketHandler() {
     }
     infixExpr.push('(');
     unclosedBrackets++;
-    problem.textContent = infixExpr.join('') + buffer;
+    problem.textContent = infixExpr.join(' ') + buffer;
 }
 
 function closeBracketHandler() {
@@ -78,12 +82,8 @@ function closeBracketHandler() {
         infixExpr[infixExpr.length -1] === ')')){
             infixExpr.push(')');
             unclosedBrackets--;
-            problem.textContent = infixExpr.join('') + buffer;
-        // if(typeof infixExpr[infixExpr.length -1] === "number" || infixExpr[infixExpr.length -1] === ')'){
-        //     infixExpr.push(')');
-        //     unclosedBrackets--;
-        //     problem.textContent = infixExpr.join('') + buffer;
-        // }
+            problem.textContent = infixExpr.join(' ') + buffer;
+       
     }
 }
 
@@ -91,83 +91,43 @@ function mulDivHandler(op) {
     pushBuffer();
     if(typeof infixExpr[infixExpr.length -1] === "number" || infixExpr[infixExpr.length -1] === ')'){
         infixExpr.push(`${op}`);
-        problem.textContent = infixExpr.join('') + buffer;
+        problem.textContent = infixExpr.join(' ') + buffer;
     }
 }
 
-// function multiplyHandler() {
-//     pushBuffer();
-//     if(typeof infixExpr[infixExpr.length -1] === "number" || infixExpr[infixExpr.length -1] === ')'){
-//         infixExpr.push('*');
-//         problem.textContent = infixExpr.join('') + buffer;
-//     }
-// }
-
 function subtractHanddler() {
     pushBuffer();
-    if(typeof infixExpr[infixExpr.length -1] === "undefined" || infixExpr[infixExpr.length -1] === '('){
-        // .log(infixExpr[infixExpr.length -1]);console
-        
+    if(typeof infixExpr[infixExpr.length -1] === "undefined" || infixExpr[infixExpr.length -1] === '('){        
         infixExpr.push(Number(0));
         infixExpr.push('-');
-        problem.textContent = infixExpr.join('') + buffer;
+        problem.textContent = infixExpr.join(' ') + buffer;
     }
     addSubHandler('-');
-    // else if(typeof infixExpr[infixExpr.length -1] === "number" || infixExpr[infixExpr.length -1] === ')'){
-    //     infixExpr.push('-');
-    //     problem.textContent = infixExpr.join('') + buffer;
-    // }
 }
 
 function addSubHandler(op){
     pushBuffer();
     if(typeof infixExpr[infixExpr.length -1] === "number" || infixExpr[infixExpr.length -1] === ')'){
         infixExpr.push(`${op}`);
-        problem.textContent = infixExpr.join('') + buffer;
+        problem.textContent = infixExpr.join(' ') + buffer;
     }
 }
 
 function clear() {
     if(buffer.length === 0){
-        // if(infixExpr[infixExpr.length -1] === '+'||
-        //     infixExpr[infixExpr.length -1] === '-'||
-        //     infixExpr[infixExpr.length -1] === '*'||
-        //     infixExpr[infixExpr.length -1] === '/'){
-        //          infixExpr.pop();
-        //          problem.textContent = infixExpr.join('') + buffer;
-        //     }
-        //  else if(infixExpr[infixExpr.length -1] === '('){
-        //      infixExpr.pop();
-        //      unclosedBrackets--;
-        //      problem.textContent = infixExpr.join('') + buffer;
-        //  }
-        //  else if(infixExpr[infixExpr.length -1] === ')'){
-        //      infixExpr.pop();
-        //      unclosedBrackets++;
-        //      problem.textContent = infixExpr.join('') + buffer;
-        //  }
         let bin = infixExpr.pop();
         if(bin === '(') unclosedBrackets--;
         else if(bin === ')') unclosedBrackets++;
         if(typeof infixExpr[infixExpr.length -1] === "number"){
             buffer = infixExpr[infixExpr.length -1].toString();
             infixExpr.pop();
-            // problem.textContent = infixExpr.join('') + buffer;
         }
     }
     else if(buffer.length !== 0){
         buffer = buffer.slice(0, -1);
-        // problem.textContent = infixExpr.join('') + buffer;
     }
-    problem.textContent = infixExpr.join('') + buffer;
+    problem.textContent = infixExpr.join(' ') + buffer;
 }
-
-// function viewInfix() {
-//     console.log(infixExpr.join('') + buffer);
-// }
-// problem.textContent = infixExpr.join('') + buffer;
-
-
 
   function equalsHandler() {
     pushBuffer();
@@ -175,7 +135,12 @@ function clear() {
         while(unclosedBrackets){
             closeBracketHandler();
         }
-        problem.textContent = infixExpr.join('') + buffer;
-        // console.log(infixExpr.join('') + buffer);
+        solution.textContent = infixExpr.join(' ') + ' =';
+        problem.textContent = eval(infixExpr.join(''));
+        problem.setAttribute("style", "font-size: 1.4rem; font-weight: bold");
+        clearBtn.textContent = "AC";
+        infixExpr.length = 0;
+        
     }
   }
+

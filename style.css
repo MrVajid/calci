@@ -3,34 +3,63 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
+    background: #182029;
+
 }
 .case, .screen {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    flex-direction: column;  
+    
+    gap: 10px;
+    margin-top: 24px;
 }
-#header {
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 800;
+.case {
+    width: 340px;
 }
 .screen {
-    height: 50px;
+    padding: 8px;
+    max-width: 100%;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 0;
+    min-width: 100%;
+}
+/* #header {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+} */
+.screen {
+    min-height: 60px;
     background-color: aliceblue;
     border-radius: 12px;
-    border: 1px solid blue;
+    margin-bottom: 6px;
+    /* border: 1px solid blue; */
+}
+#problem, #solution {
+    min-height: 25px;
+    min-width: 100%;
+    word-wrap: break-word;
+    font-size: larger;
+    text-align: right;
 }
 button {
     width: 80px;
-    padding: 10px 0;
+    padding: 8px 0;
     border-radius: 12px;
+    border: 0px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.2em;
     color: #0a0d11;
-    background-color: #9faac7;
+    background-color: #bbc8eb;
 }
 #equals {
-    width: 160px;
+    width: 164px;
     color: #9dc0ef;
+    /* border: 1px solid #bbc8eb; */
     background-color: #1f3267;
 }
