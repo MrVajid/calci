@@ -2,13 +2,18 @@
 const problem = document.querySelector("#problem");
 const solution = document.querySelector("#solution");
 const clearBtn = document.querySelector("#clear");
+const calcCase = document.querySelector(".case");
 const infixExpr = [];
 let buffer = "";
 
-function keyFinder(event){
+function setDefault() {
     solution.textContent = '';
     problem.setAttribute("style", "font-size: larger; font-weight: normal");
     clearBtn.textContent = "CE";
+}
+
+function keyFinder(event){
+    setDefault();
     switch (event.key) {
         case '(':
             openBracketHandler();
@@ -34,21 +39,68 @@ function keyFinder(event){
         case '=':
             equalsHandler();
             break;
+            case "Enter":
+                equalsHandler();
+                break;
         default:
-            numberHandler(event);
+            numberHandler(event, 0);
             break;
     }
 }
 
+function clickFinder(event) {
+    switch (event.target.id) {
+        case 'left-bracket':
+            setDefault();
+            openBracketHandler();
+            break;
+        case 'right-bracket':
+            setDefault();
+            closeBracketHandler();
+            break;
+        case "clear":
+            setDefault();
+            clear();
+            break;
+        case 'divide':
+            setDefault();
+            mulDivHandler('/');
+            break;
+        case 'multiply':
+            setDefault();
+            mulDivHandler('*');
+            break;
+        case 'minus':
+            setDefault();
+            subtractHanddler();
+            break;
+        case 'plus':
+            setDefault();
+            addSubHandler('+');
+            break;
+        case 'equals':
+            setDefault();
+            equalsHandler();
+            break;
+        default:
+            numberHandler(0, event);
+            break;
+    }
+}
+calcCase.addEventListener("click", clickFinder);
 window.addEventListener("keydown", keyFinder)
 
-function numberHandler(event) {
-    if((event.key <= 9 && event.key >=0) || event.key === '.'){
+function numberHandler(keyEvent, clickEvent) {
+    let pressed = null;
+    if(keyEvent) pressed = keyEvent.key;
+    else if(clickEvent) pressed = clickEvent.target.textContent;
+    if((pressed <= 9 && pressed >=0) || pressed === '.'){
+        setDefault();
         if(infixExpr[infixExpr.length -1] === ')'){
             infixExpr.push('*');
         }
         if(buffer.length <= 10){
-            buffer = buffer + event.key.toString();
+            buffer = buffer + pressed.toString();
             problem.textContent = infixExpr.join(' ') + ' ' + buffer;
         }
         else{
@@ -140,7 +192,5 @@ function clear() {
         problem.setAttribute("style", "font-size: 1.4rem; font-weight: bold");
         clearBtn.textContent = "AC";
         infixExpr.length = 0;
-        
     }
   }
-
