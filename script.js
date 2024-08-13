@@ -87,6 +87,7 @@ function clickFinder(event) {
             break;
     }
 }
+
 calcCase.addEventListener("click", clickFinder);
 window.addEventListener("keydown", keyFinder)
 
