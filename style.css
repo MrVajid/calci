@@ -13,7 +13,7 @@ body {
 }
 .case {
     width: 350px;
-    box-shadow: 0px 0px 41px 6px rgba(68,92,117,0.66);
+    /* box-shadow: 0px 0px 41px 6px rgba(68,92,117,0.66); */
     padding: 24px;
     border-radius: 24px;
     margin-top: 24px;
